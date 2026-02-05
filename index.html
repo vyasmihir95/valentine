@@ -35,7 +35,9 @@ body{overflow:hidden;color:white;}
     display:none;
     position:fixed;
     inset:0;
-    background:url('bg.jpg') no-repeat center top/cover;
+    background:url('bg.jpg') no-repeat;
+    background-size:cover;
+    background-position:50% 10%; /* shows face */
     justify-content:center;
     align-items:center;
     text-align:center;
@@ -65,7 +67,7 @@ h1{
     display:flex;
     justify-content:center;
     align-items:center;
-    gap:20px;
+    gap:40px;
 }
 
 button{
@@ -85,7 +87,7 @@ button{
 #noBtn{
     background:#222;
     color:white;
-    position:absolute;
+    position:relative;
 }
 
 /* MESSAGE */
@@ -153,15 +155,20 @@ entry.addEventListener('click', ()=>{
     music.play();
 });
 
-// Move NO button anywhere on screen
-function moveNo(){
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 60);
+// Move NO button (desktop + mobile safe)
+function moveNo(e){
+    e.preventDefault();
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 80);
     noBtn.style.position = 'fixed';
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
 }
+
+// Desktop hover
 noBtn.addEventListener('mouseover', moveNo);
+// Mobile touch
+noBtn.addEventListener('touchstart', moveNo);
 
 // YES click
 yesBtn.addEventListener('click', ()=>{
