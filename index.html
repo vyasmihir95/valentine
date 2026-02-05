@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Be My Valentine ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+body{overflow:hidden;color:white;}
+
+/* ENTRY SCREEN */
+#entryScreen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff4e8a,#ff9a9e);
+    cursor:pointer;
+    z-index:10;
+}
+#entryScreen h1{
+    font-size:3rem;
+    animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+}
+
+/* MAIN CONTENT */
+#mainContent{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:url('bg.jpg') no-repeat center top/cover;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+#mainContent::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+}
+
+.container{
+    position:relative;
+    z-index:2;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:40px;
+    text-shadow:0 0 20px #ff4e8a;
+}
+
+/* BUTTONS */
+.buttons{
+    position:relative;
+    height:120px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+}
+
+button{
+    padding:15px 40px;
+    font-size:1.3rem;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+#yesBtn{
+    background:white;
+    color:#ff4e8a;
+}
+
+#noBtn{
+    background:#222;
+    color:white;
+    position:absolute;
+}
+
+/* MESSAGE */
+#message{
+    margin-top:40px;
+    font-size:2rem;
+    display:none;
+    animation:pop 0.6s ease forwards;
+}
+@keyframes pop{
+    from{transform:scale(0);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+/* FLOATING HEARTS */
+.heart{
+    position:fixed;
+    bottom:-50px;
+    color:#ff4e8a;
+    animation:floatUp 6s linear infinite;
+    z-index:1;
+}
+@keyframes floatUp{
+    0%{ transform:translateY(0) scale(1); opacity:1; }
+    100%{ transform:translateY(-110vh) scale(1.8); opacity:0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENTRY SCREEN -->
+<div id="entryScreen">
+    <h1>Click to Begin 💖</h1>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent">
+    <div class="container">
+        <h1>Will you be my Valentine? 💖</h1>
+
+        <div class="buttons">
+            <button id="yesBtn">Yes 😍</button>
+            <button id="noBtn">No 😒</button>
+        </div>
+
+        <div id="message">Yaaay! Get ready for a date 💃🕺❤️</div>
+    </div>
+</div>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<script>
+const entry = document.getElementById('entryScreen');
+const main = document.getElementById('mainContent');
+const music = document.getElementById('bgMusic');
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+const message = document.getElementById('message');
+
+// Start experience
+entry.addEventListener('click', ()=>{
+    entry.style.display='none';
+    main.style.display='flex';
+    music.play();
+});
+
+// Move NO button anywhere on screen
+function moveNo(){
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+}
+noBtn.addEventListener('mouseover', moveNo);
+
+// YES click
+yesBtn.addEventListener('click', ()=>{
+    message.style.display='block';
+});
+
+// Floating hearts
+function createHeart(){
+    const heart = document.createElement('div');
+    heart.className='heart';
+    heart.innerHTML='❤️';
+    heart.style.left = Math.random()*100 + 'vw';
+    heart.style.fontSize = (20 + Math.random()*30) + 'px';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,400);
+</script>
+
+</body>
+</html>
